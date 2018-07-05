@@ -1,3 +1,4 @@
+<script src="../../../spider/spider.js"></script>
 <template>
   <div class="page">
     <div class="page-region">
@@ -9,12 +10,13 @@
         <mt-field label="分页选择器" placeholder="分页选择器" type="text" v-model="selector"></mt-field>
         <mt-field label="内容页标题" placeholder="内容页标题" type="text" v-model="contentTitle"></mt-field>
         <mt-field label="内容页图片" placeholder="内容页图片" type="text" v-model="contentImage"></mt-field>
-        <mt-field label="内容页内容" placeholder="内容页内容" type="text" rows="4" v-modal="content"></mt-field>
-        <mt-checklist class="checklist"
+        <mt-field label="内容页内容" placeholder="内容页内容" type="text" rows="4" v-model="content"></mt-field>
+        <mt-radio class="checklist"
           title="内容页是否分页"
           v-model="isPage"
-          :options="['是', '否']">
-        </mt-checklist>
+          :options="options">
+        </mt-radio>
+        <mt-field label="内容页内容" placeholder="内容页分页选择器" type="text" v-show="parseInt(isPage, 10)"  rows="4" v-model="contentPage"></mt-field>
       </div>
       <div class="page-region-content">
         <div class="image-collection">
@@ -33,7 +35,17 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      options: [1, 0],
+      options: [
+        {
+          label: '是',
+          value: '1'
+        },
+        {
+          label: '否',
+          value: '0'
+        }
+      ],
+      value: '1',
       baseUrl: '',
       pageUrl: '',
       startPage: 1,
@@ -42,7 +54,8 @@ export default {
       contentTitle: '',
       contentImage: '',
       content: '',
-      isPage: false
+      isPage: '1',
+      contentPage: ''
     }
   },
   computed: {

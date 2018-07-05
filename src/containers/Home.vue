@@ -21,6 +21,13 @@
             </div>
           </div>
         </router-link>
+        <router-link to="/link" class="tile bg-color-green">
+          <div class="brand">
+            <div class="name">
+              短链接
+            </div>
+          </div>
+        </router-link>
       </div>
     </div>
   </div>

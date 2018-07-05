@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/containers/Home'
 import Page from '@/containers/Page'
 import Multi from '@/containers/Multi'
+import Link from '@/containers/Link'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/multi',
       name: 'Multi',
       component: Multi
+    },
+    {
+      path: '/link',
+      name: 'Link',
+      component: Link
     }
   ]
 })
