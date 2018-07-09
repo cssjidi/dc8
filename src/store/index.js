@@ -1,7 +1,9 @@
 import image from './image'
+import link from './link'
 
 const modules = {
-  image
+  image,
+  link
 }
 
 export {

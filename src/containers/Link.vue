@@ -8,19 +8,16 @@
           </mt-cell>
         </div>
         <div class="page-button">
-          <mt-field label="网址" placeholder="网址" v-model="url"></mt-field>
+          <mt-field label="网址" placeholder="网址" v-model="url" @change="changeType()"></mt-field>
         </div>
         <div class="page-button">
-          <mt-button type="primary" class="btn" size="large" @click="getImage()">转换链接</mt-button>
+          <mt-button type="primary" class="btn" size="large" @click="fetchLink()">转换链接</mt-button>
         </div>
-      </div>
-      <div class="page-region-content">
-        <div class="image-collection">
-          <div v-for="(image,index) in getImages" :key="index" @click="selectImage(index)" :class="image.check ? 'selected' : ''">
-              <span>
-                <img :src="image.url"/>
-              </span>
-          </div>
+        <div class="qrcode" v-if="getQrcode">
+          <p>
+            <span>短链接：</span><a :href="getLink">{{getLink}}</a>
+          </p>
+          <img :src="getQrcode" alt="">
         </div>
       </div>
     </div>
@@ -33,28 +30,21 @@ export default {
     return {
       https: false,
       url: 'https://www.autohome.com.cn/drive/201807/919252.html#pvareaid=3311301',
-      isSelected: false,
       savePath: 'E:/cjd/images'
     }
   },
   computed: {
     ...mapGetters({
-      getImages: 'getImages'
+      getLink: 'getLink',
+      getQrcode: 'getQrcode'
     })
   },
   methods: {
-    getImage () {
-      this.$store.dispatch('getImage', {url: this.url})
+    fetchLink () {
+      this.$store.dispatch('fetchLink', {url: this.url})
     },
-    selectImage (index) {
-      if (this.getImages[index].check) {
-        this.getImages[index].check = false
-      } else {
-        this.getImages[index].check = true
-      }
-    },
-    saveImage () {
-      this.$store.dispatch('saveImage', {images: this.getImages, savePath: this.savePath})
+    changeType () {
+      this.https = this.url.indexOf('https') > -1 && true
     }
   }
 }

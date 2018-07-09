@@ -14,6 +14,10 @@ const type = {
   save: {
     FETCH_OK: 'SAVE_FETCH_OK',
     FETCH_ERROR: 'SAVE_FETCH_ERROR'
+  },
+  link: {
+    FETCH_OK: 'LINK_FETCH_OK',
+    FETCH_ERROR: 'LINK_FETCH_ERROR'
   }
 }
 
