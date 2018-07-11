@@ -1,6 +1,8 @@
 import defaultType from './type'
 import fetch from './fetch'
-
+import Nes from 'nes/dist/client'
+const client = new Nes.Client('ws://localhost:1000')
+console.log(client)
 const type = defaultType.link
 const module = {
   state: {
