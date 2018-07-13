@@ -4,6 +4,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createLogger from 'vuex/dist/logger'
 import MintUI from 'mint-ui'
+import VueSocketio from 'vue-socket.io'
+import socketio from 'socket.io-client'
 import 'mint-ui/lib/style.css'
 import '@/assets/css/modern.css'
 
@@ -15,14 +17,26 @@ Vue.config.productionTip = false
 
 Vue.use(Vuex)
 Vue.use(MintUI)
+
 const store = new Vuex.Store({
   plugins: process.env.NODE_ENV !== 'production' ? [createLogger()] : [],
   modules: {
     module
   }
 })
+
+Vue.use(VueSocketio, socketio('http://localhost:1000'), store)
+
 /* eslint-disable no-new */
 new Vue({
+  sockets: {
+    connect: function () {
+      console.log('socket connected')
+    },
+    customEmit: function (val) {
+      console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+    }
+  },
   el: '#app',
   router,
   store,

@@ -17,6 +17,7 @@
           :options="options">
         </mt-radio>
         <mt-field label="内容页内容" placeholder="内容页分页选择器" type="text" v-show="parseInt(isPage, 10)"  rows="4" v-model="contentPage"></mt-field>
+        <mt-button type="primary" size="large" @click="fetchPost()">确定</mt-button>
       </div>
       <div class="page-region-content">
         <div class="image-collection">
@@ -66,6 +67,9 @@ export default {
   methods: {
     getImage () {
       this.$store.dispatch('getImage', {url: this.url})
+    },
+    fetchPost () {
+      this.$socket.emit('user', 1234)
     },
     selectImage (index) {
       if (this.getImages[index].check) {

@@ -18,6 +18,10 @@ const type = {
   link: {
     FETCH_OK: 'LINK_FETCH_OK',
     FETCH_ERROR: 'LINK_FETCH_ERROR'
+  },
+  socket: {
+    FETCH_OK: 'SOCKET_CONNECT',
+    MESSAGE: 'SOCKET_MESSAGE'
   }
 }
 
