@@ -12,14 +12,15 @@
           <mt-field label="保存位置" placeholder="E:/" v-model="savePath"></mt-field>
         </div>
         <div class="page-button">
-          <mt-button type="primary" class="btn" size="large" @click="saveImage()">保存所选图片</mt-button>
+          <button type="primary" class="btn" size="large" @click="saveImage">保存所选图片</button>
         </div>
       </div>
       <div class="page-region-content">
         <div class="image-collection">
             <div v-for="(image,index) in getImages" :key="index" @click="selectImage(index)" :class="image.check ? 'selected' : ''">
+              <a :href="image.url" :download="image.url" style="display:none" @click.native="clickImage">{{image.url}}</a>
               <span>
-                <img :src="image.url"/>
+                <img :src="image.url" width="100%" />
               </span>
             </div>
         </div>
@@ -29,6 +30,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import axios from 'axios'
 export default {
   data () {
     return {
@@ -54,7 +56,33 @@ export default {
       }
     },
     saveImage () {
-      this.$store.dispatch('saveImage', {images: this.getImages, savePath: this.savePath})
+      console.log('我触发了它')
+      console.log(this.getImages)
+      Object.keys(this.getImages).forEach((key) => {
+        const { url, check } = this.getImages[key]
+        if (check) {
+          axios({
+            url,
+            responseType: 'blob'
+          }).then((data) => {
+            console.log(data)
+          }).catch((err) => {
+            console.log(err)
+          })
+          console.log(url)
+          const name = url.slice(url.lastIndexOf('/') + 1)
+          console.log(name)
+          const link = document.createElement('a')
+          link.download = name
+          link.href = url
+          const event = document.createEvent('MouseEvents')
+          event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+          link.dispatchEvent(event)
+        }
+      })
+    },
+    clickImage () {
+      this.$emit('clickImage')
     }
   }
 }
