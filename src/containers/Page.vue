@@ -64,8 +64,6 @@ export default {
             url,
             responseType: 'blob'
           }).then((data) => {
-            console.log(data)
-            console.log(new Blob(['Hello, world!'], { type: 'text/plain;charset=utf-8' }))
             let fileName = ''
             fileName = url.slice(url.lastIndexOf('/') + 1)
             if (!/\.jpg|\.gif|\.jpeg|\.webp|\.bmp|.\svg/.test(fileName)) {
