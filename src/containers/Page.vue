@@ -30,8 +30,6 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import axios from 'axios'
-import saveAs from 'save-as'
 export default {
   data () {
     return {
@@ -58,21 +56,14 @@ export default {
     },
     saveImage () {
       Object.keys(this.getImages).forEach((key) => {
-        const { url, check } = this.getImages[key]
-        if (check) {
-          axios({
-            url,
-            responseType: 'blob'
-          }).then((data) => {
-            let fileName = ''
-            fileName = url.slice(url.lastIndexOf('/') + 1)
-            if (!/\.jpg|\.gif|\.jpeg|\.webp|\.bmp|.\svg/.test(fileName)) {
-              fileName += '.jpg'
-            }
-            saveAs(data.data, `${this.savePath}/${fileName}`)
-          }).catch((err) => {
-            console.log(err)
-          })
+        const img = this.getImages[key]
+        if (img.check) {
+          const { url } = img
+          const name = url.slice(url.lastIndexOf('/') + 1)
+          const alink = document.createElement('a')
+          alink.href = url
+          alink.download = name
+          alink.click()
         }
       })
     },

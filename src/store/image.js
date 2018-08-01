@@ -1,3 +1,4 @@
+import saveAs from 'save-as'
 import defaultType from './type'
 import fetch from './fetch'
 
@@ -12,9 +13,12 @@ const module = {
     [type.FETCH_OK] (state, payload) {
       state.images = payload.images
     },
-
-    [postType.FETCH_OK] ({commit, state}, payload) {
-      console.log(payload)
+    [postType.FETCH_OK] (state, payload) {
+      state.success = 0
+      Object.keys(payload).forEach((key) => {
+        const { name, data } = payload[key]
+        saveAs(new Blob(data.data, {type: data.type}), name)
+      })
     }
   },
   actions: {
@@ -33,22 +37,15 @@ const module = {
         }
       })
     },
-    saveImage ({commit}, {images, savePath}) {
-      console.log(images, savePath)
-      let pic = []
-      Object.keys(images).forEach((key) => {
-        if (images[key].check) {
-          pic.push(images[key].url)
-        }
-      })
+    saveImage ({commit}, {image}) {
       fetch({
-        url: '/api/saveImage',
+        url: '/api/post/save',
         method: 'post',
         data: {
-          images: pic,
-          savePath
+          image
         },
         successAction: (data) => {
+          console.log(data)
           commit(postType.FETCH_OK, data)
         },
         errorAction: (err) => {
